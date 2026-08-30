@@ -16,7 +16,7 @@ dari Google Play Store.
 └── notebooks/
     └── analisis_sentimen.ipynb     # Notebook utama & final (sudah dieksekusi penuh):
                                      # EDA, preprocessing, pelabelan, ekstraksi fitur,
-                                     # 3 skema pelatihan deep learning, evaluasi,
+                                     # 4 skema pelatihan deep learning, evaluasi,
                                      # dan inference/testing
 ```
 
@@ -24,14 +24,16 @@ dari Google Play Store.
 
 | Skema | Algoritma | Ekstraksi Fitur | Pelabelan | Split | Train Acc | Test Acc |
 |---|---|---|---|---|---|---|
-| 1 | Bi-LSTM | Tokenizer Embedding | Rating-based | 80/20 | 89.26% | 85.12% |
-| 2 | LSTM | Word2Vec | Rating-based | 80/20 | 89.75% | 85.56% |
-| 3 | CNN (Conv1D) | Tokenizer Embedding | Lexicon-based | 70/30 | 98.58% | 95.15% |
+| 1 | Bi-LSTM (ensemble 3-model) | Tokenizer Embedding | Rating-based | 80/20 | 89.15% | 85.09% |
+| 2 | LSTM | Word2Vec | Rating-based | 80/20 | 90.11% | 85.56% |
+| 3 | CNN (Conv1D) | Tokenizer Embedding | Lexicon-based | 70/30 | 97.21% | 95.15% |
+| 4 | GRU | Tokenizer Embedding | Lexicon-based | 75/25 | 99.08% | 94.92% |
 
 - Dataset: 14.822 review (>10.000), 3 kelas sentimen (positif/netral/negatif)
-- Skema 3 mencapai akurasi train & test di atas 92%; Skema 1 & 2 di atas 85%
-- Operasi TensorFlow dijalankan deterministik sehingga angka akurasi di atas
-  reproducible persis setiap notebook dijalankan ulang
+- 4 skema dilatih (melebihi syarat minimal 3) agar kriteria akurasi >92% terpenuhi tanpa ambiguitas:
+  Skema 3 & 4 mencapai akurasi train & test di atas 92%; Skema 1 & 2 di atas 85%
+- Operasi TensorFlow dijalankan deterministik (single-thread, oneDNN dinonaktifkan) sehingga
+  angka akurasi di atas reproducible saat notebook dijalankan ulang
 
 ## Cara Menjalankan Ulang
 
@@ -59,7 +61,7 @@ Seluruh pipeline ada pada `notebooks/analisis_sentimen.ipynb`, mencakup:
 3. Stopword removal (Sastrawi) & stemming
 4. Pelabelan sentimen 3 kelas — dua metode: berbasis rating dan berbasis leksikon
 5. Ekstraksi fitur (Tokenizer+Embedding / Word2Vec)
-6. Pelatihan 3 skema model deep learning (Bi-LSTM, LSTM+Word2Vec, CNN)
+6. Pelatihan 4 skema model deep learning (Bi-LSTM ensemble, LSTM+Word2Vec, CNN, GRU)
 7. Evaluasi (akurasi, classification report, confusion matrix)
 8. Inference/testing dengan bukti output kelas kategorikal pada kalimat baru
 
