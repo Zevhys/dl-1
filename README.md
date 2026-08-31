@@ -9,6 +9,7 @@ dari Google Play Store.
 ```
 .
 ├── scraping.py                     # Script scraping mandiri (google-play-scraper)
+├── preprocessing.py                # Script pembersihan teks + pelabelan (menghasilkan dataset bersih)
 ├── requirements.txt                # Dependensi Python
 ├── data/
 │   ├── gojek_reviews_raw.csv       # 14.822 review hasil scraping mandiri
@@ -24,10 +25,10 @@ dari Google Play Store.
 
 | Skema | Algoritma | Ekstraksi Fitur | Pelabelan | Split | Train Acc | Test Acc |
 |---|---|---|---|---|---|---|
-| 1 | Bi-LSTM | Tokenizer Embedding | Hybrid (rating + leksikon) | 80/20 | 94.20% | 87.30% |
-| 2 | LSTM | Word2Vec | Hybrid (rating + leksikon) | 80/20 | 91.39% | 88.45% |
-| 3 | CNN (Conv1D) | Tokenizer Embedding | Leksikon murni | 70/30 | 100.00% | 95.54% |
-| 4 | GRU | Tokenizer Embedding | Leksikon murni | 75/25 | 97.24% | 94.89% |
+| 1 | Bi-LSTM | Tokenizer Embedding | Hybrid (rating + leksikon) | 80/20 | 93.55% | 87.53% |
+| 2 | LSTM | Word2Vec | Hybrid (rating + leksikon) | 80/20 | 93.39% | 88.59% |
+| 3 | CNN (Conv1D) | Tokenizer Embedding | Leksikon murni | 70/30 | 100.00% | 95.61% |
+| 4 | GRU | Tokenizer Embedding | Leksikon murni | 75/25 | 98.83% | 95.05% |
 
 - Dataset: 14.822 review (>10.000), 3 kelas sentimen (positif/netral/negatif)
 - 4 skema dilatih (melebihi syarat minimal 3) agar kriteria akurasi >92% terpenuhi tanpa ambiguitas:
@@ -55,7 +56,17 @@ Script ini mengambil hingga 20.000 review terbaru aplikasi Gojek
 (`com.gojek.app`) dan menyimpannya ke `data/gojek_reviews_raw.csv` dengan kolom:
 `review`, `rating`, `date`, `thumbsUpCount`, `reviewCreatedVersion`.
 
-### 2. Preprocessing, Pelabelan, dan Pelatihan Model
+### 2. Preprocessing & Pelabelan (opsional — dataset bersih sudah tersedia)
+
+```bash
+python preprocessing.py
+```
+
+Menghasilkan `data/gojek_reviews_clean.csv` dari hasil scraping. Fungsi pembersihannya identik
+dengan yang ada di notebook (terverifikasi mereproduksi dataset yang tersimpan 100%).
+Prosesnya memakan waktu ~9 menit karena stemming Sastrawi bersifat rule-based per kata.
+
+### 3. Pelatihan Model
 
 Seluruh pipeline ada pada `notebooks/analisis_sentimen.ipynb`, mencakup:
 
