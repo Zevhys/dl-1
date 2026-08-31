@@ -24,17 +24,19 @@ dari Google Play Store.
 
 | Skema | Algoritma | Ekstraksi Fitur | Pelabelan | Split | Train Acc | Test Acc |
 |---|---|---|---|---|---|---|
-| 1 | Bi-LSTM | Tokenizer Embedding | Hybrid (rating + leksikon) | 80/20 | 94.78% | 87.13% |
-| 2 | LSTM | Word2Vec | Hybrid (rating + leksikon) | 80/20 | 93.41% | 88.96% |
-| 3 | CNN (Conv1D) | Tokenizer Embedding | Leksikon murni | 70/30 | 100.00% | 95.36% |
-| 4 | GRU | Tokenizer Embedding | Leksikon murni | 75/25 | 96.96% | 94.84% |
+| 1 | Bi-LSTM | Tokenizer Embedding | Hybrid (rating + leksikon) | 80/20 | 94.20% | 87.30% |
+| 2 | LSTM | Word2Vec | Hybrid (rating + leksikon) | 80/20 | 91.39% | 88.45% |
+| 3 | CNN (Conv1D) | Tokenizer Embedding | Leksikon murni | 70/30 | 100.00% | 95.54% |
+| 4 | GRU | Tokenizer Embedding | Leksikon murni | 75/25 | 97.24% | 94.89% |
 
 - Dataset: 14.822 review (>10.000), 3 kelas sentimen (positif/netral/negatif)
 - 4 skema dilatih (melebihi syarat minimal 3) agar kriteria akurasi >92% terpenuhi tanpa ambiguitas:
   Skema 3 & 4 mencapai akurasi train & test di atas 92%; Skema 1 & 2 di atas 85%
 - Ketiga kelas benar-benar dipelajari model (f1-score kelas netral 0.84-0.93 di seluruh skema)
-- Operasi TensorFlow dijalankan deterministik (single-thread, oneDNN dinonaktifkan) sehingga
-  angka akurasi di atas reproducible saat notebook dijalankan ulang
+- Seed, operasi deterministik TensorFlow, dan mode single-thread diaktifkan untuk menekan variasi
+  antar-eksekusi. Pelatihan pada CPU tetap menyisakan variasi kecil (teramati ~±0.6 poin persen),
+  jadi angka di atas bisa sedikit berbeda saat dijalankan ulang — tidak mengubah kesimpulan,
+  karena margin terkecil masih ~2 poin persen di atas ambang 85%
 
 ## Cara Menjalankan Ulang
 
