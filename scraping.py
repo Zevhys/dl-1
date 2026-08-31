@@ -10,6 +10,7 @@ Output:
     data/gojek_reviews_raw.csv
 """
 
+import os
 import time
 import pandas as pd
 from google_play_scraper import Sort, reviews
@@ -59,6 +60,7 @@ def main():
     df = df.dropna(subset=["review"])
     df = df.drop_duplicates(subset=["review"])
 
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     df.to_csv(OUTPUT_PATH, index=False)
     print(f"Selesai. {len(df)} review unik disimpan ke '{OUTPUT_PATH}'.")
     print(df["rating"].value_counts())

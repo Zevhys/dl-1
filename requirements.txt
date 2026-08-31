@@ -1,12 +1,23 @@
+# Versi di bawah adalah versi yang benar-benar digunakan untuk menghasilkan
+# seluruh angka pada notebooks/analisis_sentimen.ipynb.
+
+# Scraping data (dijalankan terpisah lewat scraping.py)
 google-play-scraper==1.2.7
-pandas==2.2.2
-numpy==1.26.4
-scikit-learn==1.5.1
-tensorflow==2.17.0
-gensim==4.3.3
+
+# Pengolahan data & evaluasi
+pandas==3.0.5
+numpy==2.4.6
+scikit-learn==1.9.0
+
+# Deep learning
+tensorflow-cpu==2.21.0
+keras==3.15.1
+
+# NLP Bahasa Indonesia
 Sastrawi==1.0.1
-nltk==3.9.1
-matplotlib==3.9.1
+gensim==4.4.0
+
+# Visualisasi
+matplotlib==3.11.1
 seaborn==0.13.2
-wordcloud==1.9.3
-imbalanced-learn==0.12.3
+wordcloud==1.9.6
