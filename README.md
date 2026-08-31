@@ -24,14 +24,15 @@ dari Google Play Store.
 
 | Skema | Algoritma | Ekstraksi Fitur | Pelabelan | Split | Train Acc | Test Acc |
 |---|---|---|---|---|---|---|
-| 1 | Bi-LSTM (ensemble 3-model) | Tokenizer Embedding | Rating-based | 80/20 | 89.15% | 85.09% |
-| 2 | LSTM | Word2Vec | Rating-based | 80/20 | 90.11% | 85.56% |
-| 3 | CNN (Conv1D) | Tokenizer Embedding | Lexicon-based | 70/30 | 97.21% | 95.15% |
-| 4 | GRU | Tokenizer Embedding | Lexicon-based | 75/25 | 99.08% | 94.92% |
+| 1 | Bi-LSTM | Tokenizer Embedding | Hybrid (rating + leksikon) | 80/20 | 94.78% | 87.13% |
+| 2 | LSTM | Word2Vec | Hybrid (rating + leksikon) | 80/20 | 93.41% | 88.96% |
+| 3 | CNN (Conv1D) | Tokenizer Embedding | Leksikon murni | 70/30 | 100.00% | 95.36% |
+| 4 | GRU | Tokenizer Embedding | Leksikon murni | 75/25 | 96.96% | 94.84% |
 
 - Dataset: 14.822 review (>10.000), 3 kelas sentimen (positif/netral/negatif)
 - 4 skema dilatih (melebihi syarat minimal 3) agar kriteria akurasi >92% terpenuhi tanpa ambiguitas:
   Skema 3 & 4 mencapai akurasi train & test di atas 92%; Skema 1 & 2 di atas 85%
+- Ketiga kelas benar-benar dipelajari model (f1-score kelas netral 0.84-0.93 di seluruh skema)
 - Operasi TensorFlow dijalankan deterministik (single-thread, oneDNN dinonaktifkan) sehingga
   angka akurasi di atas reproducible saat notebook dijalankan ulang
 
@@ -59,9 +60,9 @@ Seluruh pipeline ada pada `notebooks/analisis_sentimen.ipynb`, mencakup:
 1. EDA (distribusi rating, panjang teks, word cloud)
 2. Cleaning teks, case folding, normalisasi slang
 3. Stopword removal (Sastrawi) & stemming
-4. Pelabelan sentimen 3 kelas — dua metode: berbasis rating dan berbasis leksikon
+4. Pelabelan sentimen 3 kelas — dua metode: hybrid (kesepakatan rating & leksikon) dan leksikon murni
 5. Ekstraksi fitur (Tokenizer+Embedding / Word2Vec)
-6. Pelatihan 4 skema model deep learning (Bi-LSTM ensemble, LSTM+Word2Vec, CNN, GRU)
+6. Pelatihan 4 skema model deep learning (Bi-LSTM, LSTM+Word2Vec, CNN, GRU)
 7. Evaluasi (akurasi, classification report, confusion matrix)
 8. Inference/testing dengan bukti output kelas kategorikal pada kalimat baru
 
